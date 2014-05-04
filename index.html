@@ -49,7 +49,7 @@
 		<script src="js/lib/tween.min.js"></script>
 
 		<script>
-if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 
 			var container, stats;
@@ -112,8 +112,8 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 				//THREE Scene
 				camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.z = 50;
-				//call Tweens
-         tweenSetUp();
+////////////////call Tween setUp Function
+         		tweenSetUp();
 				
 
 				scene = new THREE.Scene();
@@ -163,15 +163,11 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 				//Controllers
 				controls = new THREE.FlyControls( avatarContainer );
-
 				controls.movementSpeed = 100;
 				controls.domElement = container;
 				controls.rollSpeed = Math.PI / 24;
 				controls.autoForward = false;
 				controls.dragToLook = false;
-
-  
- 
 
 				//renderer
 				renderer = new THREE.WebGLRenderer();
@@ -181,9 +177,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 				//containers for game areas ("scenes")
 				containerObjects();
-
-				//filling the scene with planets
-
 
 				//cannon physics materials
 				var avatar_planet_material = new CANNON.ContactMaterial(avatarPhysMaterial, planetPhysMaterial, 2.0, 40);
@@ -196,7 +189,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 				//window resize
 				window.addEventListener( 'resize', onWindowResize, false );
 			}
-
 
 			function containerObjects() {
 				//starting area
@@ -218,7 +210,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 					var cMass = avRadius * avatar.scale.x;
 					var newMass;
 	
-					
 					if( e.with == planets[planets.indexOf(e.with)]){
 						var scaleAmount = e.with.mass / (avatar.scale.x * 20);
 
@@ -246,8 +237,9 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 								avatarColliderMesh(newMass);
 							}
 						}
+						//made if mass value to 1, so any collision will trigger the tween
 						if (camera.position.z !== 75 && newMass >= 1 && newMass <= 10 ){
-
+//////////////////////Calling Tween on collision
 							tweenCam1.start();
 							console.log("camera newPos1");
 						} else if (camera.position.z !== 125 && newMass >= 50 && newMass <= 60 ){
@@ -296,7 +288,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 				planets.push();
 				planetsMesh.push();
 
-				//var newGuid = guid();
 				var i = planets.length;
 				var thisMass = mass /(10 * Math.PI);
 				//added THREE objects
@@ -306,7 +297,6 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 				planetsMesh[i] = new THREE.Mesh(planetGeometry, planetMaterial);
 				planetsMesh[i].position.set(posX, posY, posZ-300);
-				//planetsMesh[i].planetId = newGuid;
 
 				//added CANNOn objects
 				planetPhysMaterial = new CANNON.Material();
@@ -369,7 +359,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 				renderer.setSize( window.innerWidth, window.innerHeight );
 			}
-
+/////////////Tween setup function
 			function tweenSetUp(){
 				//camera movement Tweening
 			
@@ -441,6 +431,7 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 			}
 			function render() {
 				var time = Date.now() * 0.01;
+//////////Tween update
 				TWEEN.update();
 
 				//updating the physic engine body positions = to three mesh position
